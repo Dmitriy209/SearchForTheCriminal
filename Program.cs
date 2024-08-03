@@ -59,13 +59,13 @@ namespace SearchForTheCriminal
             Console.WriteLine("Введите национальность.");
             string nationality = Console.ReadLine();
 
-            _baseCriminals.TryShowCriminals(height, weight, nationality);
+            _baseCriminals.ShowCriminals(height, weight, nationality);
         }
     }
 
     class BaseCriminals
     {
-        private List<Criminal> criminals = new List<Criminal>();
+        private List<Criminal> _criminals = new List<Criminal>();
 
         public BaseCriminals()
         {
@@ -73,16 +73,16 @@ namespace SearchForTheCriminal
 
             int amountBaseCriminals = 100;
 
-            criminals.Add(new Criminal("Иванов", "Иван", "Иванович", "русский", false, 180, 80));
-            criminals.Add(new Criminal("Иванов", "Иван", "Иванович", "русский", true, 180, 80));
+            _criminals.Add(new Criminal("Иванов", "Иван", "Иванович", "русский", false, 180, 80));
+            _criminals.Add(new Criminal("Иванов", "Иван", "Иванович", "русский", true, 180, 80));
 
             for (int i = 0; i < amountBaseCriminals; i++)
-                criminals.Add(creatorCriminal.GenerateCriminal());
+                _criminals.Add(creatorCriminal.GenerateCriminal());
         }
 
-        public void TryShowCriminals(int height, int weight, string nationality)
+        public void ShowCriminals(int height, int weight, string nationality)
         {
-            List<Criminal> filteredCriminals = criminals.Where(criminal => criminal.Height == height && 
+            List<Criminal> filteredCriminals = _criminals.Where(criminal => criminal.Height == height && 
             criminal.Weight == weight && criminal.Nationality == nationality && criminal.IsImprisoned == false).Select(criminal => criminal).ToList<Criminal>();
 
             if (filteredCriminals.Count != 0)
@@ -103,7 +103,9 @@ namespace SearchForTheCriminal
         {
             bool isImprisoned = true;
 
-            if (UserUtils.GenerateRandomNumber(0,1) == 1)
+            int maxLimitRandomBool = 2;
+
+            if (UserUtils.GenerateRandomNumber(0, maxLimitRandomBool) == 1)
                 isImprisoned = false;
 
             int minLimitRandomHeight = 150;
